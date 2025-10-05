@@ -23,7 +23,7 @@ class AppRouter {
       case register:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
       case main:
-        return MaterialPageRoute(builder: (_) => const MainScreen());
+        return MaterialPageRoute(builder: (_) =>  MainScreen());
       default:
         return MaterialPageRoute(
           builder: (_) =>
