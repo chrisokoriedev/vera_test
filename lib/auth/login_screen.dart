@@ -6,37 +6,57 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(left: 14, right: 14, top: 8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Spacer(),
-            Text("Welcome to VeriConnect", style: TextStyle(fontSize:30),),
-            SizedBox(height: 10,),
-            AuthButtons(text: 'Log in',),
-            SizedBox(height: 15,),
-            AuthButtons(text: "Sign Up"),
-            SizedBox(height: 30,),
-            Text("Continue with Accounts", style: TextStyle(fontSize: 16),),
-            SizedBox(height: 10,),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SignInOptions(icon: Icons.safety_check, text: "Google",),
-                SignInOptions(icon: Icons.safety_check, text: "Github",)
-              ],
+      body: Stack(
+        children: [
+          // Top background Image
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(300)
             ),
-            SizedBox(height: 20,)
+            child: Image.asset(
+              "assets/images/Logistics.jpg",
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.5,
+              fit: BoxFit.cover,
+              
+            ),
+          ),
 
-          ],
-        ),
+          // Content after the background image
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  SizedBox(height: 300),
+                  Text("Welcome to VeriConnect", style: TextStyle(fontSize: 30)),
+                  SizedBox(height: 10),
+                  AuthButtons(text: 'Log in'),
+                  SizedBox(height: 15),
+                  AuthButtons(text: "Sign Up"),
+                  SizedBox(height: 30),
+                  Text("Continue with Accounts", style: TextStyle(fontSize: 16)),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SignInOptions(icon: Icons.safety_check, text: "Google"),
+                      SignInOptions(icon: Icons.safety_check, text: "Github"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
+
+
+
 
 class SignInOptions extends StatelessWidget {
   final String text;
