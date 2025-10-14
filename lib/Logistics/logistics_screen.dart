@@ -5,6 +5,13 @@ class LogisticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return const Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Text("Logistics Screen 🚛", style:  TextStyle(fontSize: 20),))
+        ],
+      ),
+    );
   }
 }
