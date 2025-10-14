@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'auth_widgets.dart';
+
 class AuthSelectionScreen extends StatelessWidget {
   const AuthSelectionScreen({super.key});
 
@@ -32,13 +34,19 @@ class AuthSelectionScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 30),
                   ),
                   const SizedBox(height: 10),
-                  AuthButtons(text: 'Log in', onTap: () {
-                    Navigator.pushReplacementNamed(context, '/login');
-                  }),
+                  AuthButtons(
+                    text: 'Log in',
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/login');
+                    },
+                  ),
                   const SizedBox(height: 15),
-                  AuthButtons(text: "Sign Up", onTap: () {
-                    Navigator.pushReplacementNamed(context, '/register');
-                  }),
+                  AuthButtons(
+                    text: "Sign Up",
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/register');
+                    },
+                  ),
                   const SizedBox(height: 30),
                   const Text(
                     "Continue with Accounts",
@@ -57,28 +65,6 @@ class AuthSelectionScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class SignInOptions extends StatelessWidget {
-  final String text;
-  final IconData icon;
-  const SignInOptions({super.key, required this.text, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 180,
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.lightBlue.shade100,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [Icon(icon), SizedBox(width: 5), Text(text)],
       ),
     );
   }
