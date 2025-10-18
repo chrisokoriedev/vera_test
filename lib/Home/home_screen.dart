@@ -7,7 +7,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('VeriConnect'),
+        title: const Text('Logo'),
         actions: [
           IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
           CircleAvatar(backgroundImage: AssetImage('assets/profile.jpg')),
@@ -23,6 +23,21 @@ class HomeScreen extends StatelessWidget {
               Text(
                 "Welcome, Vera 👋",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  hintText: "Track Your Package",
+                  suffixIcon: Icon(Icons.qr_code_scanner)
+                ),
               ),
               SizedBox(height: 10),
               Text("Services", style: TextStyle(fontSize: 20)),
@@ -51,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                     Column(
                       children: [
                         _FeatureCard(icon: Icons.announcement),
-                        Text("Announcments",style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text("Announcements",style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ],
@@ -86,8 +101,8 @@ class _FeatureCard extends StatelessWidget {
         elevation: 4,
         margin: EdgeInsets.all(15),
         child: Container(
-          width: 80,
-          height: 80,
+          width: 60,
+          height: 60,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40),
             gradient: LinearGradient(
