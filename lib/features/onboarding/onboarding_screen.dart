@@ -30,6 +30,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: Stack(
         children: [
@@ -78,22 +79,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     children: [
                       Text(
                         onboardingData[index]["title"]!,
-                        style: const TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
+                        style: textTheme.headlineLarge?.copyWith(
                           color: Colors.white,
                         ),
 
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 12),
                       Text(
                         onboardingData[index]["description"]!,
-                        style: const TextStyle(
-                          fontSize: 19,
+                        style: textTheme.bodyLarge?.copyWith(
                           color: Colors.white70,
+                          fontSize: 16,
+                          height: 1.4,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -108,7 +108,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                            backgroundColor: Theme.of(context).primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -119,7 +119,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             index == onboardingData.length - 1
                                 ? "Get Started"
                                 : "Next",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
+                            style: textTheme.bodyLarge?.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18),
                           ),
                         ),
                       ),

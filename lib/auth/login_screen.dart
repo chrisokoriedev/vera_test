@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 300),
-                  Text("Login", style: TextStyle(fontSize: 30)),
+                  Text("Welcome back", style: TextStyle(fontSize: 30)),
                   SizedBox(height: 20),
                   MyCustomTextField(
                     controller: _emailController,
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
-                        child: Text("Login", style: TextStyle(fontSize: 20)),
+                        child: Text("Log in", style: TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ),
                   ),
@@ -119,8 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SignInOptions(text: "Google", icon: Icons.safety_check),
-                      SignInOptions(text: "Apple", icon: Icons.safety_check),
+                      SignInOptions(text: "Google", imagePath: "assets/images/google (2).png"),
+                      SignInOptions(text: "Apple", imagePath: "assets/images/apple 3.png"),
                     ],
                   ),
 

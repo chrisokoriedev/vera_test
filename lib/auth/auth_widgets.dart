@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 class SignInOptions extends StatelessWidget {
   final String text;
-  final IconData icon;
-  const SignInOptions({super.key, required this.text, required this.icon});
+  final String imagePath;
+  const SignInOptions({super.key, required this.text, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +16,23 @@ class SignInOptions extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Icon(icon), SizedBox(width: 5), Text(text)],
+        mainAxisSize: MainAxisSize.min,
+
+        children: [
+          Image.asset(imagePath, width: 30, height: 30, fit: BoxFit.contain),
+          SizedBox(width: 5),
+          Flexible(
+            child: Text(
+              text,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-
-
 
 class MyCustomTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -54,22 +65,21 @@ class _MyCustomTextFieldState extends State<MyCustomTextField> {
         prefixIcon: Icon(widget.prefixIcon),
         suffixIcon: widget.onSuffixTap != null
             ? IconButton(
-          icon: Icon(
-              widget.obscureText ? Icons.visibility_off : Icons.visibility),
-          onPressed: widget.onSuffixTap,
-        )
+                icon: Icon(
+                  widget.obscureText ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: widget.onSuffixTap,
+              )
             : null,
         hintText: widget.hintText,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
-          borderRadius: BorderRadius.circular(15)
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.shade400)
-        ),
-        border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade400),
+        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         fillColor: Colors.grey.shade200,
         filled: true,
       ),

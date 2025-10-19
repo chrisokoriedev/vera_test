@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vericon/Providers/auth_provider.dart';
 import 'package:vericon/router/app_router.dart';
+import 'package:vericon/theme/app_theme.dart';
 
 void main() {
   runApp(
@@ -21,9 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: AppRouter.splash,
       onGenerateRoute: AppRouter.generateRoute,
-      theme: ThemeData(
-        fontFamily: 'Roboto',
-      ),
+      theme: AppTheme.lightTheme,
     );
   }
 }

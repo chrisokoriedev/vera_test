@@ -72,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
-                      child: Text("Sign Up", style: TextStyle(fontSize: 20)),
+                      child: Text("Sign Up", style: TextStyle(fontSize: 20, color: Colors.white)),
                     ),
                   ),
                   SizedBox(height: 40,),
@@ -108,9 +108,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SignInOptions(text: "Google", icon: Icons.safety_check),
-                      SignInOptions(text: "Apple", icon: Icons.safety_check),
+                      SignInOptions(text: "Google", imagePath: "assets/images/google (2).png"),
+                      SignInOptions(text: "Apple", imagePath: "assets/images/apple 3.png"),
                     ],
                   ),
 
@@ -129,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         child: Text(
                           "Login",
-                          style: TextStyle(color: Colors.blue, fontSize: 16),
+                          style: TextStyle(color: Colors.blue, fontSize: 16, ),
                         ),
                       ),
                     ],

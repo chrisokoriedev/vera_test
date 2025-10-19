@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Logo'),
         actions: [
           IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
-          CircleAvatar(backgroundImage: AssetImage('assets/profile.jpg')),
+          CircleAvatar(backgroundImage: AssetImage('assets/images/profile.jpg')),
           const SizedBox(width: 10),
         ],
       ),
@@ -76,7 +76,7 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Recent Shipping", style: TextStyle(fontSize: 20)),
+                  Text("Recent Shipping", style: TextStyle(fontSize: 18)),
                   Text(
                     "See all >",
                     style: TextStyle(fontSize: 16, color: Colors.blue),

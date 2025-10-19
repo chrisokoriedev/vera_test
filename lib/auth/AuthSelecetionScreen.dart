@@ -56,8 +56,9 @@ class AuthSelectionScreen extends StatelessWidget {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SignInOptions(icon: Icons.safety_check, text: "Google"),
-                      SignInOptions(icon: Icons.safety_check, text: "Github"),
+                      Expanded(child: SignInOptions(imagePath: "assets/images/google (2).png", text: "Google")),
+                      SizedBox(width: 10,),
+                      Expanded(child: SignInOptions(imagePath: "assets/images/apple 3.png", text: "Apple")),
                     ],
                   ),
                 ],
