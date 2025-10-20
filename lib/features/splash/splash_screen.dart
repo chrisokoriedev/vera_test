@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
     // This is to navigate to the onboarding screen once time completes
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        Future.delayed(const Duration(seconds: 1), () {
+        Future.delayed(const Duration(seconds: 10), () {
           Navigator.pushReplacementNamed(context, AppRouter.onboarding);
         });
       }
@@ -58,25 +58,37 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SlideTransition(
-              position: _truckAnimation,
-              child: ColorFiltered(
-                colorFilter: const ColorFilter.mode(
-                  Colors.blue, // normal blue tone
-                  BlendMode.srcIn,
-                ),
-                child: Image.asset(
-                  'assets/images/splash.png',
-                  width: 300,
-                  height: 300,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFF6FBFF),
+              Color(0xFFDCEBFF),
+            ],
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SlideTransition(
+                position: _truckAnimation,
+                child: ColorFiltered(
+                  colorFilter: const ColorFilter.mode(
+                    Colors.blue,
+                    BlendMode.srcIn,
+                  ),
+                  child: Image.asset(
+                    'assets/images/splash.png',
+                    width: 300,
+                    height: 300,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -11,7 +11,7 @@ class SignInOptions extends StatelessWidget {
       width: 180,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.lightBlue.shade100,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -77,10 +77,10 @@ class _MyCustomTextFieldState extends State<MyCustomTextField> {
           borderRadius: BorderRadius.circular(15),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.shade400),
+          borderSide: BorderSide(color: Colors.white),
         ),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-        fillColor: Colors.grey.shade200,
+        fillColor: Colors.white,
         filled: true,
       ),
     );
