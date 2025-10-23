@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class RecentShippingScreen extends StatelessWidget {
   const RecentShippingScreen({super.key});
 
@@ -33,31 +34,38 @@ class RecentShippingScreen extends StatelessWidget {
             leading: CircleAvatar(
               radius: 24,
               backgroundColor: (item['color'] as Color).withOpacity(0.2),
-              child: Icon(Icons.local_shipping,
-                  color: item['color'] as Color, size: 24),
+              child: Icon(
+                Icons.local_shipping,
+                color: item['color'] as Color,
+                size: 24,
+              ),
             ),
             title: Text(
               item['id'] as String,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.black87),
+
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            subtitle: const Text(
+            subtitle: Text(
               "Shipment ID",
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontSize: 13, color: Colors.grey),
             ),
             trailing: Container(
-              padding:
-              const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               decoration: BoxDecoration(
                 color: (item['color'] as Color).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 item['status'] as String,
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 14,
                   color: item['color'] as Color,
                   fontWeight: FontWeight.bold,
-                  fontSize: 13,
                 ),
               ),
             ),

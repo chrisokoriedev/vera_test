@@ -16,6 +16,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       'duration': '3 Weeks',
       'level': 'Beginner',
       'status': 'Enroll',
+      'image': 'assets/images/Freight forwarding.jpg',
     },
     {
       'title': 'Digital Supply Chain Management',
@@ -24,6 +25,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       'duration': '4 Weeks',
       'level': 'Intermediate',
       'status': 'Continue',
+      'image': 'assets/images/digital chain.jpg',
     },
     {
       'title': 'Global Trade Compliance',
@@ -32,6 +34,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       'duration': '2 Weeks',
       'level': 'Advanced',
       'status': 'Enroll',
+      'image': 'assets/images/shipping 2.jpg',
     },
   ];
 
@@ -78,7 +81,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                 TextField(
                   decoration: InputDecoration(
                     hintText: 'Search for a course...',
-                    prefixIcon: const Icon(Icons.search),
+                    prefixIcon: const Icon(Icons.search, color: Colors.grey),
                     filled: true,
                     fillColor: Colors.white,
 
@@ -188,19 +191,30 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Loading image: ${course['image']}');
+
     return Card(
       shadowColor: Colors.blue.shade100,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 6,
       margin: const EdgeInsets.only(bottom: 16),
       child: Container(
-        padding:  const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
+
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-            colors: [Colors.white, Colors.blue.shade50],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+
+          image: DecorationImage(
+            image: AssetImage(
+              course['image']?.isNotEmpty == true
+                  ? course['image']!
+                  : 'assets/images/shipping 2.jpg',
+            ),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.6),
+              BlendMode.darken,
+            ),
           ),
         ),
         child: Column(
@@ -211,13 +225,13 @@ class CourseCard extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               course['description']!,
-              style: const TextStyle(fontSize: 14, color: Colors.black),
+              style: const TextStyle(fontSize: 16, color: Colors.white),
             ),
             const SizedBox(height: 12),
             Row(
@@ -225,7 +239,7 @@ class CourseCard extends StatelessWidget {
               children: [
                 Text(
                   "${course['duration']} | ${course['level']}",
-                  style: const TextStyle(fontSize: 13, color: Colors.black),
+                  style: const TextStyle(fontSize: 15, color: Colors.white),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
@@ -245,8 +259,12 @@ class CourseCard extends StatelessWidget {
                       vertical: 8,
                     ),
                   ),
-                  icon: const Icon(Icons.play_arrow, size: 18, color: Colors.white,),
-                  label : Text(
+                  icon: const Icon(
+                    Icons.play_arrow,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                  label: Text(
                     course['status']!,
                     style: TextStyle(color: Colors.white),
                   ),

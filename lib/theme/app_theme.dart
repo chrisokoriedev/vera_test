@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
     primaryColor: Colors.blue,
     scaffoldBackgroundColor: Colors.white,
-    fontFamily: 'Inter',
-    textTheme: const TextTheme(
-      headlineLarge: TextStyle(
-        fontFamily: 'Montserrat',
-        fontSize: 32,
+    textTheme: TextTheme(
+      headlineLarge: GoogleFonts.nunitoSans(
+        fontSize: 28,
         fontWeight: FontWeight.bold,
-        color: Colors.blue,
+        color: Colors.black,
       ),
-      headlineMedium: TextStyle(
-        fontFamily: 'Montserrat',
-        fontSize: 24,
+      headlineMedium: GoogleFonts.nunitoSans(
+        fontSize: 22,
         fontWeight: FontWeight.w600,
         color: Colors.black,
       ),
-      bodyLarge: TextStyle(
-        fontFamily: 'Inter',
-        fontSize: 16,
+      bodyLarge: GoogleFonts.nunitoSans(
+        fontSize: 18,
         color: Colors.black87,
       ),
-      bodyMedium: TextStyle(
-        fontFamily: 'Inter',
-        fontSize: 14,
+      bodyMedium: GoogleFonts.nunitoSans(
+        fontSize: 16,
         color: Colors.black54,
       ),
     ),

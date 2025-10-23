@@ -11,10 +11,12 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text('Logo'),
+        title:  Text('Logo',  style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 25, fontWeight: FontWeight.bold)),
         actions: [
           IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
-          CircleAvatar(backgroundImage: AssetImage('assets/images/profile.jpg')),
+          CircleAvatar(
+            backgroundImage: AssetImage('assets/images/profile.jpg'),
+          ),
           const SizedBox(width: 10),
         ],
       ),
@@ -27,10 +29,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               Text(
                 "Welcome, Vera 👋",
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
               SizedBox(height: 10),
               TextField(
@@ -47,27 +46,34 @@ class HomeScreen extends StatelessWidget {
                   ),
                   hintText: "Track Your Package",
                   hintStyle: TextStyle(color: Colors.grey.shade600),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 20,
+                  ),
                   suffixIcon: Icon(Icons.qr_code_scanner),
                 ),
               ),
               SizedBox(height: 20),
               Text(
                 "Services",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge?.copyWith(fontSize: 18, fontWeight: FontWeight.w400),
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
                     _FeatureCard(icon: Icons.school, title: "Training"),
-                    _FeatureCard(icon: Icons.local_shipping, title: "Logistics"),
-                    _FeatureCard(icon: Icons.business_center, title: "Services"),
+                    _FeatureCard(
+                      icon: Icons.local_shipping,
+                      title: "Logistics",
+                    ),
+                    _FeatureCard(
+                      icon: Icons.business_center,
+                      title: "Services",
+                    ),
                     _FeatureCard(icon: Icons.newspaper, title: "News"),
                   ],
                 ),
@@ -76,10 +82,10 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Recent Shipping", style: TextStyle(fontSize: 18)),
+                  Text("Recent Shipping", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 18)),
                   Text(
                     "See all >",
-                    style: TextStyle(fontSize: 16, color: Colors.blue),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.blue, fontWeight: FontWeight.w600)
                   ),
                 ],
               ),
@@ -98,11 +104,7 @@ class _FeatureCard extends StatelessWidget {
   final String title;
   final VoidCallback? onTap;
 
-  const _FeatureCard({
-    required this.icon,
-    required this.title,
-    this.onTap,
-  });
+  const _FeatureCard({required this.icon, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +136,7 @@ class _FeatureCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               title,
-              style: const TextStyle(
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: Colors.black87,
               ),

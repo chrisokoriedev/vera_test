@@ -28,7 +28,6 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -47,32 +46,34 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Logistics Services',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
+                      style: Theme.of(context).textTheme.headlineLarge
+                          ?.copyWith(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
                     ),
                     CircleAvatar(
                       radius: 20,
                       backgroundColor: Colors.blue.shade100,
-                      child: const Icon(Icons.local_shipping_outlined, color: Colors.blue),
+                      child: const Icon(
+                        Icons.local_shipping_outlined,
+                        color: Colors.blue,
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 20,),
-                const Text(
+                SizedBox(height: 20),
+                Text(
                   "Request a Logistics Service",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineMedium?.copyWith(fontSize: 18),
                 ),
                 const SizedBox(height: 16),
-          
+
                 //  Logistics form
                 Form(
                   child: Column(
@@ -100,9 +101,9 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                         hintText: "Package Details",
                         prefixIcon: Icons.inventory_2_rounded,
                       ),
-          
+
                       const SizedBox(height: 10),
-          
+
                       // Dropdown for the service type
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -112,18 +113,36 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                         ),
                         child: DropdownButtonFormField<String>(
                           value: _serviceType,
-                          items: const [
+                          items: [
                             DropdownMenuItem(
                               value: 'Land Transport',
-                              child: Text('Land Transport'),
+                              child: Text(
+                                'Land Transport',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(fontSize: 16),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'Air Freight',
-                              child: Text('Air Freight'),
+                              child: Text(
+                                'Air Freight',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(fontSize: 16),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'Sea Cargo',
-                              child: Text('Sea Cargo'),
+                              child: Text(
+                                'Sea Cargo',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(fontSize: 16),
+                              ),
                             ),
                           ],
                           onChanged: (value) {
@@ -137,9 +156,9 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                           ),
                         ),
                       ),
-          
+
                       const SizedBox(height: 20),
-          
+
                       // The submit button
                       SizedBox(
                         width: double.infinity,
@@ -164,31 +183,35 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             "Submit Request",
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                            style: Theme.of(context).textTheme.bodyLarge
+                                ?.copyWith(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-          
+
                 const SizedBox(height: 30),
                 const Divider(),
                 const SizedBox(height: 10),
-          
-                // 🧾 Recent Requests
-                const Text(
+
+                // Recent Requests
+                Text(
                   "My Recent Requests",
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 12),
-          
+
                 // for the request cards
                 ListView.builder(
                   shrinkWrap: true,
@@ -238,9 +261,19 @@ class RequestCard extends StatelessWidget {
         ),
         title: Text(
           "Request ID: $id",
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          // style: const TextStyle(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            fontSize: 17,
+          ),
         ),
-        subtitle: Text("Status: $status"),
+        subtitle: Text(
+          "Status: $status",
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.black),
+        ),
         trailing: Icon(
           Icons.arrow_forward_ios,
           size: 16,
