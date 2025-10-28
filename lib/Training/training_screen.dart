@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'course_details_screen.dart';
+
 class TrainingScreen extends StatefulWidget {
   const TrainingScreen({super.key});
 
@@ -16,6 +18,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       'duration': '3 Weeks',
       'level': 'Beginner',
       'status': 'Enroll',
+      "price" : "₦45,000",
       'image': 'assets/images/Image 1.jpg',
     },
     {
@@ -25,6 +28,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       'duration': '4 Weeks',
       'level': 'Intermediate',
       'status': 'Continue',
+      'price' : '₦70,000',
       'image': 'assets/images/Image 2.jpg',
     },
     {
@@ -34,6 +38,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       'duration': '2 Weeks',
       'level': 'Advanced',
       'status': 'Enroll',
+      'price': '₦150,000',
       'image': 'assets/images/Image 3.jpg',
     },
   ];
@@ -193,85 +198,95 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     print('Loading image: ${course['image']}');
 
-    return Card(
-      shadowColor: Colors.blue.shade100,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 3,
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-
-          image: DecorationImage(
-            image: AssetImage(
-              course['image']?.isNotEmpty == true
-                  ? course['image']!
-                  : 'assets/images/shipping 2.jpg',
-            ),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.6),
-              BlendMode.darken,
-            ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CourseDetailScreen(course: course),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              course['title']!,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+        );
+      },
+      child: Card(
+        shadowColor: Colors.blue.shade100,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 3,
+        margin: const EdgeInsets.only(bottom: 16),
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+
+            image: DecorationImage(
+              image: AssetImage(
+                course['image']?.isNotEmpty == true
+                    ? course['image']!
+                    : 'assets/images/shipping 2.jpg',
+              ),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.6),
+                BlendMode.darken,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              course['description']!,
-              style: const TextStyle(fontSize: 16, color: Colors.white),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "${course['duration']} | ${course['level']}",
-                  style: const TextStyle(fontSize: 15, color: Colors.white),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                course['title']!,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('${course['status']} course tapped'),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                course['description']!,
+                style: const TextStyle(fontSize: 16, color: Colors.white),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "${course['duration']} | ${course['level']}",
+                    style: const TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('${course['status']} course tapped'),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue.shade700,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue.shade700,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    icon: const Icon(
+                      Icons.play_arrow,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      course['status']!,
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  icon: const Icon(
-                    Icons.play_arrow,
-                    size: 18,
-                    color: Colors.white,
-                  ),
-                  label: Text(
-                    course['status']!,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
