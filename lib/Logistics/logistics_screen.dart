@@ -261,7 +261,6 @@ class RequestCard extends StatelessWidget {
         ),
         title: Text(
           "Request ID: $id",
-          // style: const TextStyle(fontWeight: FontWeight.bold),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: Colors.black,

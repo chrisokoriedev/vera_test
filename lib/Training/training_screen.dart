@@ -16,7 +16,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       'duration': '3 Weeks',
       'level': 'Beginner',
       'status': 'Enroll',
-      'image': 'assets/images/Freight forwarding.jpg',
+      'image': 'assets/images/Image 1.jpg',
     },
     {
       'title': 'Digital Supply Chain Management',
@@ -25,7 +25,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       'duration': '4 Weeks',
       'level': 'Intermediate',
       'status': 'Continue',
-      'image': 'assets/images/digital chain.jpg',
+      'image': 'assets/images/Image 2.jpg',
     },
     {
       'title': 'Global Trade Compliance',
@@ -34,7 +34,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       'duration': '2 Weeks',
       'level': 'Advanced',
       'status': 'Enroll',
-      'image': 'assets/images/shipping 2.jpg',
+      'image': 'assets/images/Image 3.jpg',
     },
   ];
 
@@ -196,7 +196,7 @@ class CourseCard extends StatelessWidget {
     return Card(
       shadowColor: Colors.blue.shade100,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 6,
+      elevation: 3,
       margin: const EdgeInsets.only(bottom: 16),
       child: Container(
         padding: const EdgeInsets.all(16.0),
