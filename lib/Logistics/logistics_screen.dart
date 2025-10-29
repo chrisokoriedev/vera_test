@@ -56,8 +56,8 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                           ),
                     ),
                     CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.blue.shade100,
+                      radius: 22,
+                      backgroundColor: Colors.blue.shade50,
                       child: const Icon(
                         Icons.local_shipping_outlined,
                         color: Colors.blue,
@@ -202,29 +202,52 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                 const Divider(),
                 const SizedBox(height: 10),
 
-                // Recent Requests
+                // My recent request header
                 Text(
                   "My Recent Requests",
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
 
                 // for the request cards
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _requests.length,
-                  itemBuilder: (context, index) {
-                    final request = _requests[index];
-                    return RequestCard(
-                      id: request['id'],
-                      status: request['status'],
-                      color: request['color'],
-                    );
-                  },
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.15),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 12,
+                  ),
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _requests.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    itemBuilder: (context, index) {
+                      final request = _requests[index];
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                        child: RequestCard(
+                          id: request['id'],
+                          status: request['status'],
+                          color: request['color'],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -236,6 +259,53 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
 }
 
 // Recent request list
+// class RequestCard extends StatelessWidget {
+//   final String id;
+//   final String status;
+//   final Color color;
+//
+//   const RequestCard({
+//     super.key,
+//     required this.id,
+//     required this.status,
+//     required this.color,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Card(
+//       margin: const EdgeInsets.only(bottom: 12),
+//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+//       elevation: 3,
+//       child: ListTile(
+//         leading: CircleAvatar(
+//           backgroundColor: color.withOpacity(0.2),
+//           child: Icon(Icons.local_shipping, color: color),
+//         ),
+//         title: Text(
+//           "Request ID: $id",
+//           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+//             fontWeight: FontWeight.bold,
+//             color: Colors.black,
+//             fontSize: 17,
+//           ),
+//         ),
+//         subtitle: Text(
+//           "Status: $status",
+//           style: Theme.of(
+//             context,
+//           ).textTheme.bodyMedium?.copyWith(color: Colors.black),
+//         ),
+//         trailing: Icon(
+//           Icons.arrow_forward_ios,
+//           size: 16,
+//           color: Colors.grey.shade600,
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 class RequestCard extends StatelessWidget {
   final String id;
   final String status;
@@ -248,35 +318,83 @@ class RequestCard extends StatelessWidget {
     required this.color,
   });
 
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'Completed':
+        return Colors.green;
+      case 'Pending':
+        return Colors.amber.shade700;
+      case 'On the way':
+        return Colors.blue;
+      default:
+        return Colors.grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 3,
+    final Color statusColor = getStatusColor(status);
+
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [statusColor.withOpacity(0.1), Colors.white],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
       child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: CircleAvatar(
-          backgroundColor: color.withOpacity(0.2),
-          child: Icon(Icons.local_shipping, color: color),
+          radius: 25,
+          backgroundColor: statusColor.withOpacity(0.15),
+          child: Icon(Icons.local_shipping, color: statusColor),
         ),
         title: Text(
           "Request ID: $id",
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.bold,
-            color: Colors.black,
-            fontSize: 17,
+            color: Colors.black87,
+            fontSize: 16,
           ),
         ),
-        subtitle: Text(
-          "Status: $status",
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.black),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: statusColor.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  status,
+                  style: TextStyle(
+                    color: statusColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-        trailing: Icon(
+        trailing: const Icon(
           Icons.arrow_forward_ios,
-          size: 16,
-          color: Colors.grey.shade600,
+          size: 18,
+          color: Colors.grey,
         ),
       ),
     );

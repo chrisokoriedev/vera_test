@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
 
+
 class RecentShippingScreen extends StatelessWidget {
   const RecentShippingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final shipments = [
-      {"id": "A425HYJ8", "status": "On the way", "color": Colors.blue.shade400},
-      {"id": "A153KOJ2", "status": "Completed", "color": Colors.blue.shade700},
-      {"id": "A736UIK9", "status": "Pending", "color": Colors.blue.shade200},
+      {
+        "id": "A425HYJ8",
+        "status": "On the way",
+        "color": Colors.blue.shade400,
+        "date": "Expected: Oct 30, 2025"
+      },
+      {
+        "id": "A153KOJ2",
+        "status": "Completed",
+        "color": Colors.green.shade600,
+        "date": "Delivered: Oct 27, 2025"
+      },
+      {
+        "id": "A736UIK9",
+        "status": "Pending",
+        "color": Colors.orange.shade400,
+        "date": "Awaiting Pickup"
+      },
     ];
 
     return ListView.builder(
@@ -17,45 +33,64 @@ class RecentShippingScreen extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final item = shipments[index];
-        return Container(
-          margin: const EdgeInsets.only(bottom: 12),
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
+            gradient: LinearGradient(
+              colors: [
+                Colors.white,
+                (item['color'] as Color).withOpacity(0.04),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.shade300,
-                blurRadius: 6,
-                offset: const Offset(0, 3),
+                color: Colors.grey.withOpacity(0.2),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
             ],
           ),
           child: ListTile(
-            leading: CircleAvatar(
-              radius: 24,
-              backgroundColor: (item['color'] as Color).withOpacity(0.2),
+            contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            leading: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: (item['color'] as Color).withOpacity(0.15),
+              ),
               child: Icon(
-                Icons.local_shipping,
+                Icons.local_shipping_rounded,
                 color: item['color'] as Color,
-                size: 24,
+                size: 26,
               ),
             ),
             title: Text(
-              item['id'] as String,
-
+              "Shipment ID: ${item['id']}",
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 18,
                 fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
-            subtitle: Text(
-              "Shipment ID",
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge?.copyWith(fontSize: 13, color: Colors.grey),
+            subtitle: Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Text(
+                item['date'] as String,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey.shade600,
+                  fontSize: 13,
+                ),
+              ),
             ),
             trailing: Container(
-              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+              padding:
+              const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               decoration: BoxDecoration(
                 color: (item['color'] as Color).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),

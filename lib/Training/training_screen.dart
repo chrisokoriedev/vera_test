@@ -196,8 +196,6 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Loading image: ${course['image']}');
-
     return GestureDetector(
       onTap: () {
         Navigator.push(

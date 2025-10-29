@@ -11,86 +11,147 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title:  Text('Logo',  style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 25, fontWeight: FontWeight.bold)),
+        title: Text(
+          'Logo',
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
-          IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
-          CircleAvatar(
+          IconButton(
+            icon: const Icon(Icons.notifications_outlined),
+            onPressed: () {},
+          ),
+          const CircleAvatar(
             backgroundImage: AssetImage('assets/images/profile.jpg'),
           ),
           const SizedBox(width: 10),
         ],
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
+              // Greeting
               Text(
                 "Welcome, Vera 👋",
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              SizedBox(height: 10),
-              TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey.shade400),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey.shade400),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  hintText: "Track Your Package",
-                  hintStyle: TextStyle(color: Colors.grey.shade600),
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 20,
-                  ),
-                  suffixIcon: Icon(Icons.qr_code_scanner),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 12),
+
+              // Search box
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.white, Colors.blue.shade50],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300.withOpacity(0.4),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "Track your package",
+                    hintStyle: TextStyle(color: Colors.grey.shade600),
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 20),
+                    suffixIcon: const Icon(Icons.qr_code_scanner,
+                        color: Colors.blueAccent),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              // Services Section
               Text(
                 "Services",
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(fontSize: 18, fontWeight: FontWeight.w400),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 14),
+
+              // Service Cards
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
                 child: Row(
                   children: [
-                    _FeatureCard(icon: Icons.school, title: "Training"),
                     _FeatureCard(
-                      icon: Icons.local_shipping,
+                      icon: Icons.school_rounded,
+                      title: "Training",
+                      color1: Color(0xFF263238),
+
+                      color2: Colors.blue.shade100,
+                    ),
+                    _FeatureCard(
+                      icon: Icons.local_shipping_rounded,
                       title: "Logistics",
+                      color1: Color(0xFF009688),
+                      color2: Colors.green.shade100,
                     ),
                     _FeatureCard(
-                      icon: Icons.business_center,
+                      icon: Icons.business_center_rounded,
                       title: "Services",
+                      color1: Color(0xFF3949AB),
+                      color2: Colors.orange.shade100,
                     ),
-                    _FeatureCard(icon: Icons.newspaper, title: "News"),
+                    _FeatureCard(
+                      icon: Icons.newspaper_rounded,
+                      title: "News",
+                      color1: Color(0xFF80DEEA),
+                      color2: Colors.purple.shade100,
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 40),
+
+              const SizedBox(height: 35),
+
+              // Recent Shipping
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Recent Shipping", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 18)),
+                  Text(
+                    "Recent Shipping",
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Text(
                     "See all >",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.blue, fontWeight: FontWeight.w600)
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-              RecentShippingScreen(),
+
+              const SizedBox(height: 10),
+
+              // Recent Shipping List
+              const RecentShippingScreen(),
             ],
           ),
         ),
@@ -102,28 +163,38 @@ class HomeScreen extends StatelessWidget {
 class _FeatureCard extends StatelessWidget {
   final IconData icon;
   final String title;
+  final Color color1;
+  final Color color2;
   final VoidCallback? onTap;
 
-  const _FeatureCard({required this.icon, required this.title, this.onTap});
+  const _FeatureCard({
+    required this.icon,
+    required this.title,
+    required this.color1,
+    required this.color2,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        width: 100,
-        height: 100,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        width: 150,
+        height: 160,
         margin: const EdgeInsets.only(right: 16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blue.shade50, Colors.blue.shade100],
+            colors: [color1.withOpacity(0.15), color2.withOpacity(0.05)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: Colors.blue.shade100.withOpacity(0.3),
+              color: color1.withOpacity(0.2),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -132,8 +203,23 @@ class _FeatureCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 40, color: Colors.blueAccent),
-            const SizedBox(height: 8),
+            Container(
+              height: 70,
+              width: 70,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: color1.withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Icon(icon, size: 35, color: color1),
+            ),
+            const SizedBox(height: 10),
             Text(
               title,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
