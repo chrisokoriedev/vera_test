@@ -99,28 +99,34 @@ class HomeScreen extends StatelessWidget {
                     _FeatureCard(
                       icon: Icons.school_rounded,
                       title: "Training",
-                      color1: Color(0xFF263238),
-
+                      // color1: Color(0xFF263238),
+                      color1: Colors.blue.shade200,
                       color2: Colors.blue.shade100,
                     ),
                     _FeatureCard(
                       icon: Icons.local_shipping_rounded,
                       title: "Logistics",
-                      color1: Color(0xFF009688),
+                      // color1: Color(0xFF009688),
+                      color1: Colors.blue.shade200,
                       color2: Colors.green.shade100,
                     ),
                     _FeatureCard(
                       icon: Icons.business_center_rounded,
                       title: "Services",
-                      color1: Color(0xFF3949AB),
+                      // color1: Color(0xFF3949AB),
+                      color1: Colors.blue.shade200,
                       color2: Colors.orange.shade100,
                     ),
                     _FeatureCard(
                       icon: Icons.newspaper_rounded,
                       title: "News",
-                      color1: Color(0xFF80DEEA),
+                      // color1: Color(0xFF80DEEA),
+                      color1: Colors.blue.shade200,
                       color2: Colors.purple.shade100,
                     ),
+
+
+
                   ],
                 ),
               ),
@@ -233,3 +239,4 @@ class _FeatureCard extends StatelessWidget {
     );
   }
 }
+

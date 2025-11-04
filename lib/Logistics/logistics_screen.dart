@@ -259,53 +259,6 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
 }
 
 // Recent request list
-// class RequestCard extends StatelessWidget {
-//   final String id;
-//   final String status;
-//   final Color color;
-//
-//   const RequestCard({
-//     super.key,
-//     required this.id,
-//     required this.status,
-//     required this.color,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       margin: const EdgeInsets.only(bottom: 12),
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-//       elevation: 3,
-//       child: ListTile(
-//         leading: CircleAvatar(
-//           backgroundColor: color.withOpacity(0.2),
-//           child: Icon(Icons.local_shipping, color: color),
-//         ),
-//         title: Text(
-//           "Request ID: $id",
-//           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-//             fontWeight: FontWeight.bold,
-//             color: Colors.black,
-//             fontSize: 17,
-//           ),
-//         ),
-//         subtitle: Text(
-//           "Status: $status",
-//           style: Theme.of(
-//             context,
-//           ).textTheme.bodyMedium?.copyWith(color: Colors.black),
-//         ),
-//         trailing: Icon(
-//           Icons.arrow_forward_ios,
-//           size: 16,
-//           color: Colors.grey.shade600,
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class RequestCard extends StatelessWidget {
   final String id;
   final String status;
@@ -318,85 +271,38 @@ class RequestCard extends StatelessWidget {
     required this.color,
   });
 
-  Color getStatusColor(String status) {
-    switch (status) {
-      case 'Completed':
-        return Colors.green;
-      case 'Pending':
-        return Colors.amber.shade700;
-      case 'On the way':
-        return Colors.blue;
-      default:
-        return Colors.grey;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final Color statusColor = getStatusColor(status);
-
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [statusColor.withOpacity(0.1), Colors.white],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 3,
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: CircleAvatar(
-          radius: 25,
-          backgroundColor: statusColor.withOpacity(0.15),
-          child: Icon(Icons.local_shipping, color: statusColor),
+          backgroundColor: color.withOpacity(0.2),
+          child: Icon(Icons.local_shipping, color: color),
         ),
         title: Text(
           "Request ID: $id",
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.bold,
-            color: Colors.black87,
-            fontSize: 16,
+            color: Colors.black,
+            fontSize: 17,
           ),
         ),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: statusColor.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  status,
-                  style: TextStyle(
-                    color: statusColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                  ),
-                ),
-              ),
-            ],
-          ),
+        subtitle: Text(
+          "Status: $status",
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.black),
         ),
-        trailing: const Icon(
+        trailing: Icon(
           Icons.arrow_forward_ios,
-          size: 18,
-          color: Colors.grey,
+          size: 16,
+          color: Colors.grey.shade600,
         ),
       ),
     );
   }
 }
+
