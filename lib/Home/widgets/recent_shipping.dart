@@ -11,12 +11,12 @@ class RecentShippingScreen extends StatelessWidget {
         "id": "A425HYJ8",
         "status": "On the way",
         "color": Colors.blue.shade400,
-        "date": "Expected: Oct 30, 2025"
+        "date": "Expected: Oct 29, 2025"
       },
       {
         "id": "A153KOJ2",
         "status": "Completed",
-        "color": Colors.green.shade600,
+        "color": Colors.green.shade400,
         "date": "Delivered: Oct 27, 2025"
       },
       {
