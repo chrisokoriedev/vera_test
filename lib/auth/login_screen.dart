@@ -10,6 +10,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;
 
   @override
@@ -44,110 +45,124 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // SizedBox(height: 300),
-                    Text("Welcome back", style: TextStyle(fontSize: 30, color: Colors.black)),
-                    SizedBox(height: 20),
-                    MyCustomTextField(
-                      controller: _emailController,
-                      hintText: "Email",
-                      prefixIcon: Icons.email,
-                    ),
-                    SizedBox(height: 20),
-                    MyCustomTextField(
-                      controller: _passwordController,
-                      hintText: "Password",
-                      prefixIcon: Icons.lock,
-                      obscureText: _isObscure,
-                      onSuffixTap: () {
-                        setState(() {
-                          _isObscure = !_isObscure;
-                        });
-                      },
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            '/forgotpassword',
-                          );
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // SizedBox(height: 300),
+                      Text("Welcome back", style: TextStyle(fontSize: 30, color: Colors.black)),
+                      SizedBox(height: 20),
+
+                      //Email Address TextFeild
+                      MyCustomTextField(
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        controller: _emailController,
+                        hintText: "Email",
+                        prefixIcon: Icons.email,
+                      ),
+                      SizedBox(height: 20),
+
+                      // Password TextField
+                      MyCustomTextField(
+                        textInputAction: TextInputAction.next,
+                        controller: _passwordController,
+                        hintText: "Password",
+                        prefixIcon: Icons.lock,
+                        obscureText: _isObscure,
+                        onSuffixTap: () {
+                          setState(() {
+                            _isObscure = !_isObscure;
+                          });
                         },
-                        child: const Text(
-                          "Forgot Password?",
-                          style: TextStyle(color: Colors.blue, fontSize: 16),
-                        ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.pushReplacementNamed(context, '/main');
-                      },
-                      child: Container(
-                        height: 50,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Text("Log in", style: TextStyle(fontSize: 20, color: Colors.white)),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 50),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Divider(thickness: 1, color: Colors.grey[400]),
-                        ),
-                        Text(
-                          "Or Login with",
-                          style: TextStyle(
-                            color: Colors.grey[700],
-                            fontSize: 15,
-                          ),
-                        ),
-                        Expanded(
-                          child: Divider(thickness: 1, color: Colors.grey[400]),
-                        ),
-                      ],
-                    ),
 
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SignInOptions(text: "Google", imagePath: "assets/images/google (2).png"),
-                        SignInOptions(text: "Apple", imagePath: "assets/images/apple 3.png"),
-                      ],
-                    ),
-
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account?",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacementNamed(context, '/register');
+                      //Forgot password
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              '/forgotpassword',
+                            );
                           },
-                          child: Text(
-                            "Sign up",
+                          child: const Text(
+                            "Forgot Password?",
                             style: TextStyle(color: Colors.blue, fontSize: 16),
                           ),
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pushReplacementNamed(context, '/main');
+                        },
+                        child: Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text("Log in", style: TextStyle(fontSize: 20, color: Colors.white)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 50),
+
+                      //Login Options
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Divider(thickness: 1, color: Colors.grey[400]),
+                          ),
+                          Text(
+                            "Or Login with",
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 15,
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(thickness: 1, color: Colors.grey[400]),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SignInOptions(text: "Google", imagePath: "assets/images/google (2).png"),
+                          SignInOptions(text: "Apple", imagePath: "assets/images/apple 3.png"),
+                        ],
+                      ),
+
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Don't have an account?",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacementNamed(context, '/register');
+                            },
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

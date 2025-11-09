@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {},
           ),
           const CircleAvatar(
-            backgroundImage: AssetImage('assets/images/profile.jpg'),
+            backgroundImage: AssetImage('assets/images/Profile.jpg'),
           ),
           const SizedBox(width: 10),
         ],

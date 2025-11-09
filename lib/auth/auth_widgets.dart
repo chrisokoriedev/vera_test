@@ -34,18 +34,23 @@ class SignInOptions extends StatelessWidget {
   }
 }
 
+
 class MyCustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final IconData prefixIcon;
   final bool obscureText;
+  final TextInputType? keyboardType;
   final VoidCallback? onSuffixTap;
+  final TextInputAction? textInputAction;
 
   const MyCustomTextField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.prefixIcon,
+    this.keyboardType,
+    this.textInputAction,
     this.obscureText = false,
     this.onSuffixTap,
   });
@@ -57,10 +62,20 @@ class MyCustomTextField extends StatefulWidget {
 class _MyCustomTextFieldState extends State<MyCustomTextField> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: widget.controller,
       obscureText: widget.obscureText,
-
+      keyboardType: widget.keyboardType,
+      // For the form validator
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter ${widget.hintText.toLowerCase()}';
+        }
+        if (widget.hintText.toLowerCase() == 'email' && !value.contains('@')) {
+          return 'Please enter a valid email';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         prefixIcon: Icon(widget.prefixIcon),
         suffixIcon: widget.onSuffixTap != null
