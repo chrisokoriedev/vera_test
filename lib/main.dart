@@ -8,9 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
@@ -28,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: AppRouter.splash,
       onGenerateRoute: AppRouter.generateRoute,
-      theme:  AppTheme.lightTheme,
+      theme: AppTheme.lightTheme,
     );
   }
 }
