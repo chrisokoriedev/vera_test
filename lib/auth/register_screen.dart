@@ -1,5 +1,10 @@
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vericon/auth/auth_widgets.dart';
+import 'package:vericon/Providers/auth_provider.dart';
+
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -93,17 +98,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(height: 50),
 
                       //Sign Up Button
-                      Container(
-                        height: 50,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                      GestureDetector(
+                        onTap:  ()async{
+                          if(_formKey.currentState!.validate()){
+                            final authProvider = Provider.of<AuthProviderService>(context, listen: false);
+                            String? result  = await authProvider.signUp(
+                              emailController.text.trim(),
+                              passwordController.text.trim()
+                            );
+
+                            if(result == null){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Account created successfully"))
+                              );
+                              Navigator.pushReplacementNamed(context, '/login');
+                            }else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("result"),)
+                              );
+                            }
+                          }
+
+                        },
+                        child: Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(fontSize: 20, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
