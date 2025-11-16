@@ -48,4 +48,23 @@ class AuthProviderService extends ChangeNotifier {
   Future<void> logout() async {
     await _auth.signOut();
   }
+
+  // Forgot password
+  Future<String?> resetPassword(String email) async {
+    if (email.isEmpty) {
+      return "Please enter your email";
+    }
+
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return null; // for when it is successful
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        return "No account exists with this email";
+      }
+      return e.message ?? "Unable to send reset link";
+    } catch (_) {
+      return "An unexpected error occurred";
+    }
+  }
 }
