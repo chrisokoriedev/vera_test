@@ -8,11 +8,10 @@ class AuthProviderService extends ChangeNotifier {
   User? _user;
   User? get user => _user;
 
-  // Check if user is logged in
+  // To check if user is logged in
   bool get isAuthenticated => _user != null;
 
   AuthProviderService() {
-    // Listen for auth state changes
     _auth.authStateChanges().listen((User? user) {
       _user = user;
       notifyListeners();

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vericon/auth/auth_widgets.dart';
+import '../Providers/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
@@ -12,6 +14,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;
+  bool _isLoading = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +100,37 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 20),
                       GestureDetector(
-                        onTap: (){
-                          Navigator.pushReplacementNamed(context, '/main');
+                        onTap: () async{
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            final authProvider = Provider.of<AuthProviderService>(context, listen: false);
+
+                            String? result = await authProvider.login(
+                              _emailController.text.trim(),
+                              _passwordController.text.trim(),
+                            );
+
+                            setState(() {
+                              _isLoading = false;
+                            });
+
+
+                            if (result == null) {
+                              // For when the login is successful
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Login successful")),
+                              );
+
+                              Navigator.pushReplacementNamed(context, '/main');
+                            } else {
+                              // For when there is an error
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(result)),
+                              );
+                            }
+                          }
                         },
                         child: Container(
                           height: 50,
@@ -107,10 +140,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
-                            child: Text("Log in", style: TextStyle(fontSize: 20, color: Colors.white)),
+                            child: _isLoading ? CircularProgressIndicator(strokeWidth: 3,
+                              color: Colors.white,): Text("Log in", style: TextStyle(fontSize: 20, color: Colors.white))),
                           ),
                         ),
-                      ),
+
                       SizedBox(height: 50),
 
                       //Login Options
