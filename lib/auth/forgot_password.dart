@@ -1,6 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vericon/auth/auth_widgets.dart';
+
+import '../Providers/auth_provider.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -10,12 +13,41 @@ class ForgotPassword extends StatefulWidget {
 }
 
 final TextEditingController _emailController = TextEditingController();
-bool _isLoading = false;
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  bool _isLoading = false;
+
+  // show dialog for the error message
+  void showMessage(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(title),
+        content: Text(message, style: TextStyle(fontSize: 20),),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK", style: TextStyle(fontSize: 18),),
+          ),
+        ],
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, '/login');
+          },
+          child: Icon(Icons.arrow_back_ios),
+        ),
+      ),
       body: Container(
         height: double.infinity,
         decoration: const BoxDecoration(
@@ -62,22 +94,34 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
               SizedBox(height: 40),
               GestureDetector(
-                onTap: () async{
+                onTap: () async {
                   final email = _emailController.text.trim();
-                  if(email.isEmpty){
+                  if (email.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Please enter your email")),
+                      const SnackBar(content: Text("Please enter your email")),
                     );
                     return;
-                  } try {
-                    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Password reset link sent to $email")),
-                    );
-                  } catch (e){
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(e.toString())),
-                    );
+                  }
+                  setState(() => _isLoading = true);
+
+                  // the access provider
+                  final authProvider = Provider.of<AuthProviderService>(
+                    context,
+                    listen: false,
+                  );
+
+                  // call from  provider resetPassword
+                  final result = await authProvider.resetPassword(email);
+
+                  setState(() => _isLoading = false);
+                  Navigator.pushNamed(context, '/login');
+                  if (result == null) {
+                    // successful
+                    showMessage(context, "Success 🎉", "Password reset link sent to $email");
+                    
+                  } else {
+                    //error
+                    showMessage(context, "Error", result);
                   }
                 },
                 child: Container(
@@ -87,7 +131,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Center(child: Text("Continue", style: TextStyle(color: Colors.white, fontSize: 18),)),
+                  child: Center(
+                    child: _isLoading
+                        ? CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: Colors.white,
+                          )
+                        : Text(
+                            "Continue",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                  ),
                 ),
               ),
             ],
