@@ -1,6 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthProviderService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -65,6 +66,31 @@ class AuthProviderService extends ChangeNotifier {
       return e.message ?? "Unable to send reset link";
     } catch (_) {
       return "An unexpected error occurred";
+    }
+  }
+
+  Future<String?> signInWithGoogle() async {
+    try {
+      // Step 1: Google Sign-In prompt
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return "Google sign-in cancelled";
+
+      // Step 2: Getting auth tokens
+      final GoogleSignInAuthentication googleAuth =
+      await googleUser.authentication;
+
+      // Step 3: Converting the tokens into Firebase credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Step 4: finally signing in to Firebase
+      await _auth.signInWithCredential(credential);
+
+      return null; // success
+    } catch (e) {
+      return e.toString();
     }
   }
 }

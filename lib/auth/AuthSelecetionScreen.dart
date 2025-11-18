@@ -73,11 +73,12 @@ class AuthSelectionScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
                     const SizedBox(height: 10),
-                    const Row(
+                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: SignInOptions(
+                            onTap: (){},
                             imagePath: "assets/images/google (2).png",
                             text: "Google",
                           ),
@@ -85,6 +86,7 @@ class AuthSelectionScreen extends StatelessWidget {
                         SizedBox(width: 10),
                         Expanded(
                           child: SignInOptions(
+                            onTap: (){},
                             imagePath: "assets/images/apple 3.png",
                             text: "Apple",
                           ),

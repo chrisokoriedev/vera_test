@@ -3,37 +3,45 @@ import 'package:flutter/material.dart';
 class SignInOptions extends StatelessWidget {
   final String text;
   final String imagePath;
-  const SignInOptions({super.key, required this.text, required this.imagePath});
+  final VoidCallback onTap;
+  const SignInOptions({
+    super.key,
+    required this.text,
+    required this.imagePath,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 180,
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 180,
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
 
-        children: [
-          Image.asset(imagePath, width: 30, height: 30, fit: BoxFit.contain),
-          SizedBox(width: 5),
-          Flexible(
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              overflow: TextOverflow.ellipsis,
+          children: [
+            Image.asset(imagePath, width: 30, height: 30, fit: BoxFit.contain),
+            SizedBox(width: 5),
+            Flexible(
+              child: Text(
+                text,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-
 
 class MyCustomTextField extends StatefulWidget {
   final TextEditingController controller;

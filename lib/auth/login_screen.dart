@@ -16,7 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
   bool _isLoading = false;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
 
           Align(
-            alignment:Alignment.bottomCenter,
+            alignment: Alignment.bottomCenter,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.65,
               decoration: const BoxDecoration(
@@ -41,10 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFFF6FBFF),
-                    Color(0xFFDCEBFF),
-                  ],
+                  colors: [Color(0xFFF6FBFF), Color(0xFFDCEBFF)],
                 ),
               ),
               child: Padding(
@@ -55,7 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // SizedBox(height: 300),
-                      Text("Welcome back", style: TextStyle(fontSize: 30, color: Colors.black)),
+                      Text(
+                        "Welcome back",
+                        style: TextStyle(fontSize: 30, color: Colors.black),
+                      ),
                       SizedBox(height: 20),
 
                       //Email Address TextFeild
@@ -100,12 +99,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 20),
                       GestureDetector(
-                        onTap: () async{
+                        onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             setState(() {
                               _isLoading = true;
                             });
-                            final authProvider = Provider.of<AuthProviderService>(context, listen: false);
+                            final authProvider =
+                                Provider.of<AuthProviderService>(
+                                  context,
+                                  listen: false,
+                                );
 
                             String? result = await authProvider.login(
                               _emailController.text.trim(),
@@ -116,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               _isLoading = false;
                             });
 
-
                             if (result == null) {
                               // For when the login is successful
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -126,9 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.pushReplacementNamed(context, '/main');
                             } else {
                               // For when there is an error
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(result)),
-                              );
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(SnackBar(content: Text(result)));
                             }
                           }
                         },
@@ -140,10 +142,21 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
-                            child: _isLoading ? CircularProgressIndicator(strokeWidth: 3,
-                              color: Colors.white,): Text("Log in", style: TextStyle(fontSize: 20, color: Colors.white))),
+                            child: _isLoading
+                                ? CircularProgressIndicator(
+                                    strokeWidth: 3,
+                                    color: Colors.white,
+                                  )
+                                : Text(
+                                    "Log in",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                           ),
                         ),
+                      ),
 
                       SizedBox(height: 50),
 
@@ -151,7 +164,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         children: [
                           Expanded(
-                            child: Divider(thickness: 1, color: Colors.grey[400]),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.grey[400],
+                            ),
                           ),
                           Text(
                             "Or Login with",
@@ -161,7 +177,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           Expanded(
-                            child: Divider(thickness: 1, color: Colors.grey[400]),
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.grey[400],
+                            ),
                           ),
                         ],
                       ),
@@ -170,8 +189,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SignInOptions(text: "Google", imagePath: "assets/images/google (2).png"),
-                          SignInOptions(text: "Apple", imagePath: "assets/images/apple 3.png"),
+                          SignInOptions(
+                            onTap: () {},
+                            text: "Google",
+                            imagePath: "assets/images/google (2).png",
+                          ),
+                          SignInOptions(
+                            onTap: () {},
+                            text: "Apple",
+                            imagePath: "assets/images/apple 3.png",
+                          ),
                         ],
                       ),
 
@@ -186,11 +213,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(width: 10),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacementNamed(context, '/register');
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/register',
+                              );
                             },
                             child: Text(
                               "Sign Up",
-                              style: TextStyle(color: Colors.blue, fontSize: 16),
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ],

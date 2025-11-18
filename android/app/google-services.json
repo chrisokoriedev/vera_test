@@ -12,7 +12,20 @@
           "package_name": "com.example.vericon"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "55276436160-3mqcvair4db783m4rnlstln2o7vo374b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vericon",
+            "certificate_hash": "ee014559993b20cc7c258ffdcc79aa2fdcbb5f0b"
+          }
+        },
+        {
+          "client_id": "55276436160-rudkufjs2fd585catp90fac3qobbug42.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAizL8tzcNRKp4WWDjiHYb11srAXYQvx7c"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55276436160-rudkufjs2fd585catp90fac3qobbug42.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "55276436160-lik8cfeenbka52m4561os3i37dvmk3lr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.vericon"
+              }
+            }
+          ]
         }
       }
     }

@@ -22,6 +22,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
   bool _isObscure = true;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,11 +169,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+
                           SignInOptions(
+                            onTap: () async{
+                              final authProvider =
+                              Provider.of<AuthProviderService>(context, listen: false);
+
+                              String? result = await authProvider.signInWithGoogle();
+
+                              if (result == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Google sign-in successful")),
+                                );
+                                Navigator.pushReplacementNamed(context, '/main');
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(result)),
+                                );
+                              }
+                              print(result);
+                            },
                             text: "Google",
                             imagePath: "assets/images/google (2).png",
                           ),
                           SignInOptions(
+                            onTap: (){},
                             text: "Apple",
                             imagePath: "assets/images/apple 3.png",
                           ),
