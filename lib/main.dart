@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vericon/Providers/auth_provider.dart';
 import 'package:vericon/Providers/user_provider.dart';
+import 'package:vericon/Providers/logistics_provider.dart';
 import 'package:vericon/router/app_router.dart';
 import 'package:vericon/theme/app_theme.dart';
 import 'firebase_options.dart';
@@ -15,6 +16,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProviderService()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => LogisticsProvider()),
       ],
       child: MyApp(),
     ),

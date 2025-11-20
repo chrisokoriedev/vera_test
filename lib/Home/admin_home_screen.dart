@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vericon/Providers/user_provider.dart';
+import 'package:vericon/Logistics/admin_logistics_screen.dart';
 
 class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({super.key});
@@ -96,9 +97,11 @@ class AdminHomeScreen extends StatelessWidget {
                     color1: Colors.green.shade200,
                     color2: Colors.green.shade100,
                     onTap: () {
-                      // TODO: Navigate to manage logistics screen
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Manage Logistics - Coming soon")),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AdminLogisticsScreen(),
+                        ),
                       );
                     },
                   ),
