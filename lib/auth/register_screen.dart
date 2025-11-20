@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vericon/auth/auth_widgets.dart';
 import 'package:vericon/Providers/auth_provider.dart';
+import 'package:vericon/Providers/user_provider.dart';
 
 
 
@@ -22,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
   bool _isObscure = true;
+  bool _isLoading = false;
 
 
   @override
@@ -103,22 +105,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       GestureDetector(
                         onTap:  ()async{
                           if(_formKey.currentState!.validate()){
+                            setState(() {
+                              _isLoading = true;
+                            });
+
                             final authProvider = Provider.of<AuthProviderService>(context, listen: false);
+                            final userProvider = Provider.of<UserProvider>(context, listen: false);
+                            
                             String? result  = await authProvider.signUp(
                               emailController.text.trim(),
                               passwordController.text.trim()
                             );
 
                             if(result == null){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Account created successfully"))
-                              );
-                              Navigator.pushReplacementNamed(context, '/login');
+                              // Create user document in Firestore
+                              try {
+                                await userProvider.createUserDocument(
+                                  uid: authProvider.user!.uid,
+                                  name: fullNameController.text.trim(),
+                                  email: emailController.text.trim(),
+                                );
+                                
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Account created successfully"))
+                                );
+                                Navigator.pushReplacementNamed(context, '/login');
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Error creating profile: $e"))
+                                );
+                              }
                             }else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("result"),)
+                                SnackBar(content: Text(result))
                               );
                             }
+
+                            setState(() {
+                              _isLoading = false;
+                            });
                           }
 
                         },
@@ -130,10 +155,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(fontSize: 20, color: Colors.white),
-                            ),
+                            child: _isLoading
+                                ? CircularProgressIndicator(color: Colors.white, strokeWidth: 3)
+                                : Text(
+                                    "Sign Up",
+                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                  ),
                           ),
                         ),
                       ),
@@ -174,10 +201,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onTap: () async{
                               final authProvider =
                               Provider.of<AuthProviderService>(context, listen: false);
+                              final userProvider = Provider.of<UserProvider>(context, listen: false);
 
                               String? result = await authProvider.signInWithGoogle();
 
                               if (result == null) {
+                                // Create user document if doesn't exist
+                                await userProvider.fetchUserData();
+                                
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text("Google sign-in successful")),
                                 );
@@ -187,7 +218,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   SnackBar(content: Text(result)),
                                 );
                               }
-                              print(result);
                             },
                             text: "Google",
                             imagePath: "assets/images/google (2).png",

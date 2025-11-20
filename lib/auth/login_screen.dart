@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vericon/auth/auth_widgets.dart';
 import '../Providers/auth_provider.dart';
+import '../Providers/user_provider.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -115,18 +116,24 @@ class _LoginScreenState extends State<LoginScreen> {
                               _passwordController.text.trim(),
                             );
 
-                            setState(() {
-                              _isLoading = false;
-                            });
-
                             if (result == null) {
-                              // For when the login is successful
+                              // Fetch user data after successful login
+                              final userProvider = Provider.of<UserProvider>(context, listen: false);
+                              await userProvider.fetchUserData();
+
+                              setState(() {
+                                _isLoading = false;
+                              });
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("Login successful")),
                               );
 
                               Navigator.pushReplacementNamed(context, '/main');
                             } else {
+                              setState(() {
+                                _isLoading = false;
+                              });
                               // For when there is an error
                               ScaffoldMessenger.of(
                                 context,
@@ -190,7 +197,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SignInOptions(
-                            onTap: () {},
+                            onTap: () async {
+                              final authProvider = Provider.of<AuthProviderService>(context, listen: false);
+                              final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+                              String? result = await authProvider.signInWithGoogle();
+
+                              if (result == null) {
+                                await userProvider.fetchUserData();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Google sign-in successful")),
+                                );
+                                Navigator.pushReplacementNamed(context, '/main');
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(result)),
+                                );
+                              }
+                            },
                             text: "Google",
                             imagePath: "assets/images/google (2).png",
                           ),
