@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vericon/auth/auth_widgets.dart';
+import 'package:vericon/Providers/logistics_provider.dart';
+import 'package:vericon/Providers/user_provider.dart';
+import 'package:vericon/Logistics/tracking_screen.dart';
 
 class LogisticsScreen extends StatefulWidget {
   const LogisticsScreen({super.key});
@@ -17,13 +21,26 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
   final TextEditingController _packageController = TextEditingController();
 
   String _serviceType = 'Land Transport';
+  bool _isSubmitting = false;
 
-  // Sample logistics requests
-  final List<Map<String, dynamic>> _requests = [
-    {'id': 'A425HYJ8', 'status': 'On the way', 'color': Colors.orange},
-    {'id': 'B153KOJ2', 'status': 'Completed', 'color': Colors.blue},
-    {'id': 'C981PLM9', 'status': 'Pending', 'color': Colors.blueGrey},
-  ];
+  @override
+  void initState() {
+    super.initState();
+    // Fetch requests when screen loads
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<LogisticsProvider>(context, listen: false);
+      provider.fetchRequests();
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _pickupController.dispose();
+    _deliveryController.dispose();
+    _packageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,30 +93,55 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
 
                 //  Logistics form
                 Form(
+                  key: _formKey,
                   child: Column(
                     children: [
                       MyCustomTextField(
                         controller: _nameController,
                         hintText: "Full Name",
                         prefixIcon: Icons.person,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your name';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: 10),
                       MyCustomTextField(
                         controller: _pickupController,
                         hintText: "Pickup Address",
                         prefixIcon: Icons.location_city,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter pickup address';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: 10),
                       MyCustomTextField(
                         controller: _deliveryController,
                         hintText: "Delivery Address",
                         prefixIcon: Icons.location_on_rounded,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter delivery address';
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: 10),
                       MyCustomTextField(
                         controller: _packageController,
                         hintText: "Package Details",
                         prefixIcon: Icons.inventory_2_rounded,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter package details';
+                          }
+                          return null;
+                        },
                       ),
 
                       const SizedBox(height: 10),

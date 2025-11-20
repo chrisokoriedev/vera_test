@@ -15,6 +15,18 @@ class UserProvider extends ChangeNotifier {
   bool get isAdmin => _currentUser?.role == 'admin';
   bool get isUser => _currentUser?.role == 'user';
 
+  UserProvider() {
+    // Listen to auth state changes and clear user data on logout
+    _auth.authStateChanges().listen((User? user) {
+      if (user == null) {
+        clearUser();
+      } else {
+        // Fetch user data when user logs in
+        fetchUserData();
+      }
+    });
+  }
+
   // Fetch user data from Firestore
   Future<void> fetchUserData() async {
     final user = _auth.currentUser;
