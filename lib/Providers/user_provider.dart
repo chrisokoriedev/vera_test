@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +65,7 @@ class UserProvider extends ChangeNotifier {
         await fetchUserData(); // Fetch again after creating
       }
     } catch (e) {
-      print('Error fetching user data: $e');
+      log('Error fetching user data: $e');
     } finally {
       _isLoading = false;
       notifyListeners();

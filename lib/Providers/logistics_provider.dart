@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +93,7 @@ class LogisticsProvider extends ChangeNotifier {
         return LogisticsRequest.fromMap(doc.id, doc.data() as Map<String, dynamic>);
       }).toList();
     } catch (e) {
-      print('Error fetching requests: $e');
+      log('Error fetching requests: $e');
     } finally {
       _isLoading = false;
       notifyListeners();

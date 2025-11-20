@@ -154,7 +154,7 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: DropdownButtonFormField<String>(
-                          value: _serviceType,
+                          initialValue: _serviceType,
                           items: [
                             DropdownMenuItem(
                               value: 'Land Transport',
