@@ -51,6 +51,7 @@ class MyCustomTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final VoidCallback? onSuffixTap;
   final TextInputAction? textInputAction;
+  final String? Function(String?)? validator;
 
   const MyCustomTextField({
     super.key,
@@ -60,7 +61,7 @@ class MyCustomTextField extends StatefulWidget {
     this.keyboardType,
     this.textInputAction,
     this.obscureText = false,
-    this.onSuffixTap,
+    this.onSuffixTap, this.validator,
   });
 
   @override

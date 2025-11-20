@@ -205,17 +205,46 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: _isSubmitting ? null : () async {
                             if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Logistics request submitted!'),
-                                ),
+                              setState(() => _isSubmitting = true);
+                              
+                              final logisticsProvider = Provider.of<LogisticsProvider>(context, listen: false);
+                              final userProvider = Provider.of<UserProvider>(context, listen: false);
+                              
+                              final userName = _nameController.text.trim();
+                              final userEmail = userProvider.currentUser?.email ?? '';
+                              
+                              final result = await logisticsProvider.createRequest(
+                                userName: userName,
+                                userEmail: userEmail,
+                                serviceType: _serviceType,
+                                pickupLocation: _pickupController.text.trim(),
+                                destination: _deliveryController.text.trim(),
+                                packageDetails: _packageController.text.trim(),
                               );
-                              _nameController.clear();
-                              _pickupController.clear();
-                              _deliveryController.clear();
-                              _packageController.clear();
+
+                              setState(() => _isSubmitting = false);
+
+                              if (result == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Request submitted successfully!'),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                                _nameController.clear();
+                                _pickupController.clear();
+                                _deliveryController.clear();
+                                _packageController.clear();
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(result),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -225,15 +254,24 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          child: Text(
-                            "Submit Request",
-                            style: Theme.of(context).textTheme.bodyLarge
-                                ?.copyWith(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                          child: _isSubmitting
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Text(
+                                  "Submit Request",
+                                  style: Theme.of(context).textTheme.bodyLarge
+                                      ?.copyWith(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
-                          ),
                         ),
                       ),
                     ],
@@ -256,40 +294,77 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
                 const SizedBox(height: 16),
 
                 // for the request cards
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.15),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 12,
-                  ),
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _requests.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 10),
-                    itemBuilder: (context, index) {
-                      final request = _requests[index];
-                      return AnimatedContainer(
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut,
-                        child: RequestCard(
-                          id: request['id'],
-                          status: request['status'],
-                          color: request['color'],
+                Consumer<LogisticsProvider>(
+                  builder: (context, provider, child) {
+                    if (provider.isLoading) {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: CircularProgressIndicator(),
                         ),
                       );
-                    },
-                  ),
+                    }
+
+                    final requests = provider.userRequests;
+
+                    if (requests.isEmpty) {
+                      return Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'No requests yet',
+                            style: TextStyle(color: Colors.grey.shade600),
+                          ),
+                        ),
+                      );
+                    }
+
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.15),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16,
+                        horizontal: 12,
+                      ),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: requests.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 10),
+                        itemBuilder: (context, index) {
+                          final request = requests[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TrackingScreen(requestId: request.id),
+                                ),
+                              );
+                            },
+                            child: RequestCard(
+                              id: request.id.substring(0, 8).toUpperCase(),
+                              status: request.status,
+                              serviceType: request.serviceType,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -304,25 +379,40 @@ class _LogisticsScreenState extends State<LogisticsScreen> {
 class RequestCard extends StatelessWidget {
   final String id;
   final String status;
-  final Color color;
+  final String serviceType;
 
   const RequestCard({
     super.key,
     required this.id,
     required this.status,
-    required this.color,
+    required this.serviceType,
   });
+
+  Color _getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return Colors.orange;
+      case 'in progress':
+        return Colors.blue;
+      case 'completed':
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final statusColor = _getStatusColor(status);
+    
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 3,
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: color.withOpacity(0.2),
-          child: Icon(Icons.local_shipping, color: color),
+          backgroundColor: statusColor.withOpacity(0.2),
+          child: Icon(Icons.local_shipping, color: statusColor),
         ),
         title: Text(
           "Request ID: $id",
@@ -332,11 +422,23 @@ class RequestCard extends StatelessWidget {
             fontSize: 17,
           ),
         ),
-        subtitle: Text(
-          "Status: $status",
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.black),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Status: $status",
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: statusColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              serviceType,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.grey.shade600,
+              ),
+            ),
+          ],
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,
